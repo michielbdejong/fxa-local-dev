@@ -8,6 +8,7 @@ RUN git clone https://github.com/creationix/nvm.git /.nvm
 RUN echo ". /.nvm/nvm.sh" >> /etc/bash.bashrc
 RUN /bin/bash -c '. /.nvm/nvm.sh && nvm install v0.10.40 && nvm use v0.10.40 && nvm alias default v0.10.40 && ln -s /.nvm/v0.10.40/bin/node /usr/bin/node'
 RUN /.nvm/v0.10.40/bin/npm install -g npm@2.4
+RUN ln -s /.nvm/v0.10.40/bin/npm /usr/bin/npm
 RUN npm install -g node-gyp \
  && npm cache clear
 
