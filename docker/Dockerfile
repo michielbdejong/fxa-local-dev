@@ -7,8 +7,8 @@ RUN apt-get update \
  && apt-get install -y software-properties-common \
  && add-apt-repository ppa:webupd8team/java \
  && apt-get update \
- && echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
- && echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
+ && echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
+ && echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections \
  && apt-get install -y \
       build-essential \
       git-core \
@@ -26,10 +26,11 @@ RUN git clone https://github.com/creationix/nvm.git /.nvm \
  && echo ". /.nvm/nvm.sh" >> /etc/bash.bashrc \
  && /bin/bash -c '. /.nvm/nvm.sh && nvm install v0.10.40 && nvm use v0.10.40 && nvm alias default v0.10.40 && ln -s /.nvm/v0.10.40/bin/node /usr/bin/node' \
  && /.nvm/v0.10.40/bin/npm install -g \
-      node-gyp \
       npm \
-      pm2 \
  && ln -s /.nvm/v0.10.40/bin/npm /usr/bin/npm \
+ && /.nvm/v0.10.40/bin/npm install -g \
+      node-gyp \
+      pm2 \
  && npm cache clear
 
 # Install fxa-local-dev
@@ -41,4 +42,5 @@ RUN cd app/fxa-local-dev && npm install
 USER root
 
 # Run with pm2
-CMD cd app/fxa-local-dev && pm2 start servers.json && pm2 logs
+RUN cd app/fxa-local-dev && pm2 start servers.json
+CMD pm2 logs
