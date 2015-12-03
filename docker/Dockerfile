@@ -11,6 +11,15 @@ RUN /bin/bash -c '. /.nvm/nvm.sh && nvm install v0.10.40 && nvm use v0.10.40 && 
 RUN npm install -g node-gyp \
  && npm cache clear
 
+# Install Java
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository ppa:webupd8team/java
+RUN apt-get update
+ENV DEBIAN_FRONTEND noninteractive
+RUN echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+RUN echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
+RUN apt-get install -y oracle-java7-installer
+
 # Install fxa-local-dev
 RUN git clone https://github.com/mozilla/fxa-local-dev
 RUN cd fxa-local-dev && npm install
@@ -18,5 +27,9 @@ RUN cd fxa-local-dev && sh _scripts/install_all.sh
 
 # Run with pm2
 RUN npm install -g pm2
-ADD ./servers.json fxa-local-dev/servers-custom.json
-RUN cd fxa-local-dev && pm2 start servers-custom.json
+
+CMD cd fxa-local-dev && pm2 start servers.json && pm2 logs
+
+# # Install grunt-cli?
+# RUN npm install -g grunt-cli
+
