@@ -26,6 +26,7 @@ RUN mkdir /app && chown install /app
 USER install
 RUN cd app && git clone https://github.com/mozilla/fxa-local-dev
 RUN cd app/fxa-local-dev && npm install
+USER root
 
 # Run with pm2
 RUN npm install -g pm2
