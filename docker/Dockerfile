@@ -31,5 +31,5 @@ USER root
 # Run with pm2
 RUN npm install -g pm2
 
-CMD cd fxa-local-dev && pm2 start servers.json && pm2 logs
+CMD cd app/fxa-local-dev && pm2 start servers.json && pm2 logs
 
