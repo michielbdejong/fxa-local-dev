@@ -22,8 +22,7 @@ RUN apt-get install -y oracle-java7-installer
 
 # Install fxa-local-dev
 RUN git clone https://github.com/mozilla/fxa-local-dev
-RUN cd fxa-local-dev && npm install
-RUN cd fxa-local-dev && sh _scripts/install_all.sh
+RUN cd fxa-local-dev && npm install --unsafe-perm
 
 # Run with pm2
 RUN npm install -g pm2
