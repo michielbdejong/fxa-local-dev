@@ -21,16 +21,14 @@ RUN echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-sel
 RUN apt-get install -y oracle-java7-installer
 
 # Install fxa-local-dev
-RUN git clone https://github.com/mozilla/fxa-local-dev
-RUN cd fxa-local-dev && npm install --unsafe-perm
-RUN cd fxa-local-dev/fxa-content-server && ./node_modules/bower/bin/bower update --config.interactive=false -s --allow-root
-RUN cd fxa-local-dev && npm install
+RUN useradd -d /app install
+RUN mkdir /app && chown install /app
+USER install
+RUN cd app && git clone https://github.com/mozilla/fxa-local-dev
+RUN cd app/fxa-local-dev && npm install
 
 # Run with pm2
 RUN npm install -g pm2
 
 CMD cd fxa-local-dev && pm2 start servers.json && pm2 logs
-
-# # Install grunt-cli?
-# RUN npm install -g grunt-cli
 
