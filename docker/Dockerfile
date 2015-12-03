@@ -22,7 +22,9 @@ RUN apt-get install -y oracle-java7-installer
 
 # Install fxa-local-dev
 RUN git clone https://github.com/mozilla/fxa-local-dev
-RUN cd fxa-local-dev && npm install --unsafe-perm
+RUN cd fxa-local-dev && npm install
+RUN cd fxa-local-dev/fxa-content-server && ./node_modules/bower/bin/bower update --config.interactive=false -s --allow-root
+RUN cd fxa-local-dev && npm install
 
 # Run with pm2
 RUN npm install -g pm2
