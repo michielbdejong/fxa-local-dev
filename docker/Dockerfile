@@ -43,4 +43,5 @@ USER root
 
 # Run with pm2
 RUN cd app/fxa-local-dev && pm2 start servers.json
+EXPOSE 3030 1114 10140 9010 9011 1111 1112 1113 8080 10139 10137 5050 6379 10222 5000
 CMD pm2 logs
