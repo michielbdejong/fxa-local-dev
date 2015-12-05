@@ -74,7 +74,7 @@ RUN cd app/fxa-local-dev \
   && npm i
 RUN cd app/fxa-local-dev \
   && git clone https://github.com/mozilla/123done.git -b oauth \
-  && cd 123-done \
+  && cd 123done \
   && npm i \
   && CONFIG_123DONE=./config-local.json node ./scripts/gen_keys.js
 RUN cd app/fxa-local-dev \
@@ -92,4 +92,4 @@ USER root
 # Run with pm2
 RUN cd app/fxa-local-dev && pm2 start servers.json
 EXPOSE 3030 1114 10140 9010 9011 1111 1112 1113 8080 10139 10137 5050 6379 10222 5000
-CMD pm2 logs
+CMD cd app/fxa-local-dev && pm2 start servers.json && pm2 logs
